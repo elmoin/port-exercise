@@ -19,7 +19,6 @@ git clone https://github.com/elmoin/port-exercise.git {your-project}
 cd {your-project}
 npm i
 elm package install -y
-npm run
 npm start
 ```
 
