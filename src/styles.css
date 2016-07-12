@@ -4,18 +4,26 @@
 	height: 30%;
 }
 
-.content {
+.card {
   text-align: center;
 }
 
-.btn-more {
+.input-field{
+  text-align: left;
+}
+
+.card-action > a {
+  cursor: pointer;
+}
+
+.btn {
 	background-color: #7fd13b;
 }
 
-.btn-more:hover {
+.btn:hover {
 	background-color: #60b5cc;
 }
 
-.btn-more:active {
+.btn:active {
 	background-color: #5a6378;
 }

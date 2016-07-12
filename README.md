@@ -1,17 +1,21 @@
-# Work in progress ...
+#  Execercises (Elmoin Meetup July 2016)
 
-## Elmoin Meetup July 2016 Execercise
+Let's have some fun talking Elm to Javascript, and vice versa.
 
-Let's have some fun talking Elm with Javascript, and vice versa.
+## Exercises
 
-## Installation
+### Helpful links
+- [JavaScript and Ports · An Introduction to Elm ](http://guide.elm-lang.org/interop/javascript.html)
+- [Moment.js Documentation](http://momentjs.com/docs/)
 
-1. Fork https://github.com/elmoin/elmoin-port.git
+### Installation
 
-2. Run app
+- Fork https://github.com/elmoin/port-exercise.git
+
+- Run
 
 ```
-git clone https://github.com/elmoin/elmoin-port.git {your-project}
+git clone https://github.com/elmoin/port-exercise.git {your-project}
 cd {your-project}
 npm i
 elm package install -y
@@ -19,18 +23,28 @@ npm run
 npm start
 ```
 
-While hacking using your editor open http://localhost:3333 to see your result immediately in your browser.
+- Open [http://localhost:3333](http://localhost:3333) in your browser to to see your result immediately while coding with your editor.
 
-3. You will find all exercises in `Main.elm`.
+- Finally open a pull request to show your results.
 
-4. Open a pull request to show your result.
+### Exercise 1
+- Use [momentjs](http://momentjs.com) to count how many days we already have had this year from today.
+- _Hint:_ Use "difference" http://momentjs.com/docs/#/displaying/difference/
 
+### Exercise 2
+- Create two input fields to enter two different dates.
+- Use [momentjs](http://momentjs.com) to determine how many years, months and days are between these two dates?
+- Example data:
+```
+Date 1: 01/01/2010
+Date 2: 13/07/2016
+Result: 6 years, 7 months, 13 days
+```
+- _Hint:_ For an example of an input implementation check [Todo.elm](https://github.com/evancz/elm-todomvc/blob/master/Todo.elm#L212-L221) of Elm TodoMVC app.
 
-## Helpful links
-
-- [JavaScript and Ports · An Introduction to Elm ](http://guide.elm-lang.org/interop/javascript.html)
-- [Sending data to a port immediately after initialization](https://groups.google.com/forum/#!topic/elm-discuss/kFQV7Lg5-9I)
-- [Moment.js Documentation](http://momentjs.com/docs/)
+### Exercise 3
+- Extend the basic example to get a random number from JS right after the initialization of the application without clicking the button "Get random from JS!"
+- _Hint:_ Check out "[Sending data to a port immediately after initialization](https://groups.google.com/forum/#!topic/elm-discuss/kFQV7Lg5-9I)"
 
 ## License
 
