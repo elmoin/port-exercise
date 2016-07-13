@@ -4,8 +4,8 @@ var Elm = require('./Main');
 var app = Elm.Main.fullscreen();
 
 app.ports.outputToJS.subscribe(function () {
-	console.log('JS called by Elm');
+	console.log('Elm -> JS');
 	var random = Math.round(Math.random() * 100);
-	console.log('JS send to Elm ' + random);
+	console.log('JS -> Elm ' + random);
 	app.ports.inputFromJS.send(random);
 });

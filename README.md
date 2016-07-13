@@ -7,6 +7,7 @@ Let's have some fun talking Elm to Javascript, and vice versa.
 ### Helpful links
 - [JavaScript and Ports · An Introduction to Elm ](http://guide.elm-lang.org/interop/javascript.html)
 - [Moment.js Documentation](http://momentjs.com/docs/)
+- [Material Design Lite Documentation](https://getmdl.io/)
 
 ### Installation
 
@@ -43,7 +44,7 @@ Result: 6 years, 7 months, 13 days
 
 ### Exercise 3
 - Extend the basic example to get a random number from JS right after the initialization of the application without clicking the button "Get random from JS!"
-- _Hint:_ Check out "[Sending data to a port immediately after initialization](https://groups.google.com/forum/#!topic/elm-discuss/kFQV7Lg5-9I)"
+- _Hint:_ Check out [programWithFlags](http://package.elm-lang.org/packages/elm-lang/html/1.1.0/Html-App#programWithFlags) and "[Sending data to a port immediately after initialization](https://groups.google.com/forum/#!topic/elm-discuss/kFQV7Lg5-9I)"
 
 ## License
 

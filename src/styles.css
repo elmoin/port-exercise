@@ -1,19 +1,22 @@
 
-.logo {
-  width: 30%;
-	height: 30%;
-}
-
-.card {
+.mdl-card {
   text-align: center;
 }
 
-.input-field{
-  text-align: left;
+.mdl-card__title {
+  color: #7fd13b;
+}
+
+h2.result {
+  color: #60b5cc;
 }
 
 .card-action > a {
   cursor: pointer;
+}
+
+.button {
+  color: #60b5cc;
 }
 
 .btn {
@@ -26,4 +29,8 @@
 
 .btn:active {
 	background-color: #5a6378;
+}
+
+input:focus{
+  outline: none;
 }

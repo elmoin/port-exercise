@@ -14,7 +14,7 @@ module.exports = {
 	output: {
 		path: path.join(__dirname, '/dist/'),
 		pathinfo: true,
-		filename: '[hash].js',
+		filename: 'index.js',
 		publicPath: '/'
 	},
 	resolve: {

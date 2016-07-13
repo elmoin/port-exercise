@@ -70,15 +70,17 @@ subscriptions model =
 exampleView : Model -> Html Msg
 exampleView model =
     div
-        [ class "col s4 offset-s4 card" ]
-        [ h1 [ class "card-title" ] [ text <| "Port Example" ]
-        , h3
-            []
+        [ class "card-example mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
+        [ div [ class "mdl-card__title mdl-card--expand" ]
+            [ h2 [ class "mdl-card__title-text" ] [ text "Port Example" ]
+            ]
+        , h2
+            [ class "result" ]
             [ text <| toString model.count ]
-        , div [ class "card-action" ]
+        , div [ class "mdl-card__actions mdl-card--border" ]
             [ a
-                [ onClick DoCount ]
-                [ text <| "Random" ]
+                [ class "mdl-button mdl-js-button mdl-js-ripple-effect button", onClick DoCount ]
+                [ text "Random" ]
             ]
         ]
 
@@ -86,15 +88,17 @@ exampleView model =
 exercise1View : Html Msg
 exercise1View =
     div
-        [ class "col s4 offset-s4 card" ]
-        [ h1 [ class "card-title" ] [ text <| "Exercise 1" ]
-        , h3
-            []
-            [ text <| "?" ]
-        , div [ class "card-action" ]
+        [ class "card-exercise1 mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
+        [ div [ class "mdl-card__title mdl-card--expand" ]
+            [ h2 [ class "mdl-card__title-text" ] [ text "Exercise 1" ]
+            ]
+        , h2
+            [ class "result" ]
+            [ text "Result?" ]
+        , div [ class "mdl-card__actions mdl-card--border" ]
             [ a
-                []
-                [ text <| "Calculate days" ]
+                [ class "mdl-button mdl-js-button mdl-js-ripple-effect button" ]
+                [ text "Calculate" ]
             ]
         ]
 
@@ -102,29 +106,32 @@ exercise1View =
 exercise2View : Html Msg
 exercise2View =
     div
-        [ class "col s4 offset-s4 card" ]
-        [ h1 [ class "card-title" ] [ text <| "Exercise 2" ]
-        , div
-            [ class "row" ]
-            [ div [ class "input-field col s6" ]
-                [ input [ id "date1", type' "text", placeholder "Date 1" ] []
+        [ class "card-exercise1 mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
+        [ div [ class "mdl-card__title mdl-card--expand" ]
+            [ h2 [ class "mdl-card__title-text" ] [ text "Exercise 2" ]
+            ]
+        , div []
+            [ div [ id "date1-wrapper", class "mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col mdl-cell--1-offset" ]
+                [ input [ id "date1", type' "text", class "mdl-textfield__input", placeholder "Date 1" ] []
                 ]
-            , div [ class "input-field col s6" ]
-                [ input [ id "date2", type' "text", placeholder "Date 2" ] []
+            , div [ id "date2-wrapper", class "mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col mdl-cell--1-offset" ]
+                [ input [ id "date2", type' "text", class "mdl-textfield__input", placeholder "Date 2" ] []
                 ]
             ]
-        , h3 [] [ text <| "?" ]
-        , div [ class "card-action" ]
+        , h2
+            [ class "result" ]
+            [ text "Result?" ]
+        , div [ class "mdl-card__actions mdl-card--border" ]
             [ a
-                []
-                [ text <| "Difference" ]
+                [ class "mdl-button mdl-js-button mdl-js-ripple-effect button" ]
+                [ text "Differenced" ]
             ]
         ]
 
 
 view : Model -> Html Msg
 view model =
-    div [ class "row" ]
+    div [ class "mdl-grid" ]
         [ exampleView model
         , exercise1View
         , exercise2View
