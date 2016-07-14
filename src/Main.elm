@@ -6,9 +6,9 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
-main : Program Never
+main : Program (Maybe Model)
 main =
-    Html.program
+    Html.programWithFlags
         { init = init
         , view = view
         , update = update
@@ -21,12 +21,27 @@ main =
 
 
 type alias Model =
-    { count : Int }
+    { count : Int
+    , difference : Int
+    , firstField : String
+    , secondField : String
+    , differenceOfDates : Int
+    }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( { count = 0 }, Cmd.none )
+initialModel : Model
+initialModel =
+    { count = 0
+    , difference = 0
+    , firstField = "01-07-2016"
+    , secondField = "02-07-2016"
+    , differenceOfDates = 0
+    }
+
+
+init : Maybe Model -> ( Model, Cmd Msg )
+init passedModel =
+    Maybe.withDefault initialModel passedModel ! []
 
 
 
@@ -36,6 +51,12 @@ init =
 type Msg
     = GetCount Int
     | DoCount
+    | CalculateDifference
+    | GetDifference Int
+    | UpdateFirstField String
+    | UpdateSecondField String
+    | CalculateDifferenceBetweenDates
+    | UpdateDifference Int
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -45,7 +66,43 @@ update msg model =
             ( { model | count = value }, Cmd.none )
 
         DoCount ->
-            ( model, outputToJS () )
+            let
+                bar =
+                    asdf
+            in
+                ( model, outputToJS () )
+
+        CalculateDifference ->
+            ( model, calculateDifference () )
+
+        GetDifference diff ->
+            ( { model | difference = diff }, Cmd.none )
+
+        UpdateFirstField date ->
+            ( { model | firstField = date }, Cmd.none )
+
+        UpdateSecondField date ->
+            ( { model | secondField = date }, Cmd.none )
+
+        CalculateDifferenceBetweenDates ->
+            ( model, calculateDifferenceBetweenDates [ model.firstField, model.secondField ] )
+
+        UpdateDifference diff ->
+            ( { model | differenceOfDates = diff }, Cmd.none )
+
+
+
+-- Stuff nobody gets.
+
+
+foo : (Int -> msg) -> String
+foo asdf =
+    "Hello World"
+
+
+asdf : String
+asdf =
+    foo GetDifference
 
 
 
@@ -55,12 +112,28 @@ update msg model =
 port outputToJS : () -> Cmd msg
 
 
+port calculateDifference : () -> Cmd msg
+
+
+port calculateDifferenceBetweenDates : List String -> Cmd msg
+
+
+port updateDifference : (Int -> msg) -> Sub msg
+
+
 port inputFromJS : (Int -> msg) -> Sub msg
+
+
+port getDifference : (Int -> msg) -> Sub msg
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    inputFromJS GetCount
+    Sub.batch
+        [ inputFromJS GetCount
+        , getDifference GetDifference
+        , updateDifference UpdateDifference
+        ]
 
 
 
@@ -69,61 +142,52 @@ subscriptions model =
 
 exampleView : Model -> Html Msg
 exampleView model =
-    div
-        [ class "card-example mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
+    div [ class "card-example mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
         [ div [ class "mdl-card__title mdl-card--expand" ]
             [ h2 [ class "mdl-card__title-text" ] [ text "Port Example" ]
             ]
-        , h2
-            [ class "result" ]
+        , h2 [ class "result" ]
             [ text <| toString model.count ]
         , div [ class "mdl-card__actions mdl-card--border" ]
-            [ a
-                [ class "mdl-button mdl-js-button mdl-js-ripple-effect button", onClick DoCount ]
+            [ a [ class "mdl-button mdl-js-button mdl-js-ripple-effect button", onClick DoCount ]
                 [ text "Random" ]
             ]
         ]
 
 
-exercise1View : Html Msg
-exercise1View =
-    div
-        [ class "card-exercise1 mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
+exercise1View : Model -> Html Msg
+exercise1View model =
+    div [ class "card-exercise1 mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
         [ div [ class "mdl-card__title mdl-card--expand" ]
             [ h2 [ class "mdl-card__title-text" ] [ text "Exercise 1" ]
             ]
-        , h2
-            [ class "result" ]
-            [ text "Result?" ]
+        , h2 [ class "result" ]
+            [ text <| toString model.difference ]
         , div [ class "mdl-card__actions mdl-card--border" ]
-            [ a
-                [ class "mdl-button mdl-js-button mdl-js-ripple-effect button" ]
+            [ a [ class "mdl-button mdl-js-button mdl-js-ripple-effect button", onClick CalculateDifference ]
                 [ text "Calculate" ]
             ]
         ]
 
 
-exercise2View : Html Msg
-exercise2View =
-    div
-        [ class "card-exercise1 mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
+exercise2View : Model -> Html Msg
+exercise2View model =
+    div [ class "card-exercise1 mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
         [ div [ class "mdl-card__title mdl-card--expand" ]
             [ h2 [ class "mdl-card__title-text" ] [ text "Exercise 2" ]
             ]
         , div []
             [ div [ id "date1-wrapper", class "mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col mdl-cell--1-offset" ]
-                [ input [ id "date1", type' "text", class "mdl-textfield__input", placeholder "Date 1" ] []
+                [ input [ id "date1", type' "text", class "mdl-textfield__input", placeholder model.firstField, onInput UpdateFirstField ] []
                 ]
             , div [ id "date2-wrapper", class "mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col mdl-cell--1-offset" ]
-                [ input [ id "date2", type' "text", class "mdl-textfield__input", placeholder "Date 2" ] []
+                [ input [ id "date2", type' "text", class "mdl-textfield__input", placeholder model.secondField, onInput UpdateSecondField ] []
                 ]
             ]
-        , h2
-            [ class "result" ]
-            [ text "Result?" ]
+        , h2 [ class "result" ]
+            [ text <| toString model.differenceOfDates ]
         , div [ class "mdl-card__actions mdl-card--border" ]
-            [ a
-                [ class "mdl-button mdl-js-button mdl-js-ripple-effect button" ]
+            [ a [ class "mdl-button mdl-js-button mdl-js-ripple-effect button", onClick CalculateDifferenceBetweenDates ]
                 [ text "Differenced" ]
             ]
         ]
@@ -133,6 +197,6 @@ view : Model -> Html Msg
 view model =
     div [ class "mdl-grid" ]
         [ exampleView model
-        , exercise1View
-        , exercise2View
+        , exercise1View model
+        , exercise2View model
         ]
