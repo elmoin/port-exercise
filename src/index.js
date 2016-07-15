@@ -16,3 +16,14 @@ app.ports.countDays.subscribe(function () {
 	var days = from.diff(to, 'days');
 	app.ports.daysCounted.send(days);
 });
+
+app.ports.calculateDateDifference.subscribe(function (dates) {
+	var format = 'DD/MM/YYYY';
+	var to = moment(dates[0], format);
+	var from = moment(dates[1], format);
+	app.ports.dateDifference.send({
+		years: from.diff(to, 'years'),
+		months: from.diff(to, 'months'),
+		days: from.diff(to, 'days')
+	});
+});
