@@ -9,3 +9,10 @@ app.ports.outputToJS.subscribe(function () {
 	console.log('JS -> Elm ' + random);
 	app.ports.inputFromJS.send(random);
 });
+
+app.ports.countDays.subscribe(function () {
+	var to = moment([2016, 1, 1]);
+	var from = moment();
+	var days = from.diff(to, 'days');
+	app.ports.daysCounted.send(days);
+});

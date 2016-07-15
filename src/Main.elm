@@ -21,12 +21,22 @@ main =
 
 
 type alias Model =
-    { count : Int }
+    { count : Int
+    , countedDays : Int
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { count = 0 }, Cmd.none )
+    ( { count = 0
+      , countedDays = 0
+      }
+    , Cmd.none
+    )
+
+
+type alias NumberOfDays =
+    Int
 
 
 
@@ -36,6 +46,8 @@ init =
 type Msg
     = GetCount Int
     | DoCount
+    | DoCountDays
+    | CountDays NumberOfDays
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -46,6 +58,12 @@ update msg model =
 
         DoCount ->
             ( model, outputToJS () )
+
+        DoCountDays ->
+            ( model, countDays () )
+
+        CountDays value ->
+            ( { model | countedDays = value }, Cmd.none )
 
 
 
@@ -58,9 +76,18 @@ port outputToJS : () -> Cmd msg
 port inputFromJS : (Int -> msg) -> Sub msg
 
 
+port countDays : () -> Cmd msg
+
+
+port daysCounted : (NumberOfDays -> msg) -> Sub msg
+
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    inputFromJS GetCount
+    Sub.batch
+        [ inputFromJS GetCount
+        , daysCounted CountDays
+        ]
 
 
 
@@ -85,8 +112,8 @@ exampleView model =
         ]
 
 
-exercise1View : Html Msg
-exercise1View =
+exercise1View : Model -> Html Msg
+exercise1View model =
     div
         [ class "card-exercise1 mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-offset" ]
         [ div [ class "mdl-card__title mdl-card--expand" ]
@@ -94,10 +121,10 @@ exercise1View =
             ]
         , h2
             [ class "result" ]
-            [ text "Result?" ]
+            [ text <| toString model.countedDays ]
         , div [ class "mdl-card__actions mdl-card--border" ]
             [ a
-                [ class "mdl-button mdl-js-button mdl-js-ripple-effect button" ]
+                [ class "mdl-button mdl-js-button mdl-js-ripple-effect button", onClick DoCountDays ]
                 [ text "Calculate" ]
             ]
         ]
@@ -133,6 +160,6 @@ view : Model -> Html Msg
 view model =
     div [ class "mdl-grid" ]
         [ exampleView model
-        , exercise1View
-        , exercise2View
+        , exercise1View model
+          -- , exercise2View
         ]
