@@ -6,9 +6,9 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
-main : Program Never
+main : Program (Maybe Model)
 main =
-    Html.program
+    Html.programWithFlags
         { init = init
         , view = view
         , update = update
@@ -29,20 +29,23 @@ type alias Model =
     }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( { count = 0
-      , countedDays = 0
-      , difference =
-            { years = 0
-            , months = 0
-            , days = 0
-            }
-      , date1 = ""
-      , date2 = ""
-      }
-    , Cmd.none
-    )
+initialModel : Model
+initialModel =
+    { count = 0
+    , countedDays = 0
+    , difference =
+        { years = 0
+        , months = 0
+        , days = 0
+        }
+    , date1 = ""
+    , date2 = ""
+    }
+
+
+init : Maybe Model -> ( Model, Cmd Msg )
+init modelFromJS =
+    Maybe.withDefault initialModel modelFromJS ! []
 
 
 type alias NumberOfDays =
