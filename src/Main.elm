@@ -6,7 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
-main : Program (Maybe Model)
+main : Program (Maybe RandomCount)
 main =
     Html.programWithFlags
         { init = init
@@ -21,7 +21,7 @@ main =
 
 
 type alias Model =
-    { count : Int
+    { count : RandomCount
     , countedDays : Int
     , difference : DateDifference
     , date1 : DateValue
@@ -38,14 +38,27 @@ initialModel =
         , months = 0
         , days = 0
         }
-    , date1 = ""
-    , date2 = ""
+    , date1 = "13/07/2000"
+    , date2 = "17/07/2016"
     }
 
 
-init : Maybe Model -> ( Model, Cmd Msg )
-init modelFromJS =
-    Maybe.withDefault initialModel modelFromJS ! []
+init : Maybe RandomCount -> ( Model, Cmd Msg )
+init randomCount =
+    let
+        model =
+            case randomCount of
+                Just randomCount ->
+                    { initialModel | count = randomCount }
+
+                Nothing ->
+                    initialModel
+    in
+        ( model, Cmd.none )
+
+
+type alias RandomCount =
+    Int
 
 
 type alias NumberOfDays =
@@ -72,7 +85,7 @@ type alias DateDifference =
 
 
 type Msg
-    = GetCount Int
+    = GetCount RandomCount
     | DoCount
     | DoCountDays
     | CountDays NumberOfDays
